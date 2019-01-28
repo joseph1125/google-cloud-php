@@ -184,7 +184,8 @@ class GqlQuery implements QueryInterface
      */
     public function start($cursor)
     //@codingStandardsIgnoreStart
-    {}
+    {
+    }
     //@codingStandardsIgnoreEnd
 
     /**
@@ -212,9 +213,13 @@ class GqlQuery implements QueryInterface
             $value = $this->entityMapper->valueObject($binding);
 
             if ($bindingType === self::BINDING_NAMED) {
-                $res[$key] = [
-                    'value' => $value
-                ];
+                if (isset($value['cursor'])) {
+                    $res[$key] = $value;
+                } else {
+                    $res[$key] = [
+                        'value' => $value
+                    ];
+                }
             } else {
                 $res[] = [
                     'value' => $value
